@@ -1,9 +1,9 @@
 package by.epam.learn.automation.task0304.page.googlecalculator.computeenginetab;
 
-import by.epam.learn.automation.task0304.page.Page;
+import by.epam.learn.automation.task0304.page.AbstractPage;
 import org.openqa.selenium.WebDriver;
 
-public class ComputeEngineTab extends Page {
+public class ComputeEngineTab extends AbstractPage {
 
     public ComputeEngineTab(WebDriver driver) {
         super(driver);

@@ -1,74 +1,49 @@
 package by.epam.learn.automation.task0304.test;
 
+import by.epam.learn.automation.task0304.driver.DriverSingleton;
 import by.epam.learn.automation.task0304.page.googlecalculator.ContactsForm;
 import by.epam.learn.automation.task0304.page.googlecalculator.GoogleCalculatorHomePage;
-import by.epam.learn.automation.task0304.page.googlecalculator.GoogleCalculatorResults;
-import by.epam.learn.automation.task0304.page.googlecalculator.computeenginetab.ComputeEngineTab;
-import by.epam.learn.automation.task0304.page.googlecloud.GoogleCloudHomePage;
+import by.epam.learn.automation.task0304.page.googlecalculator.GoogleCalculatorResultsBar;
 import by.epam.learn.automation.task0304.page.mail.YopMailGeneratorPage;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import by.epam.learn.automation.task0304.util.PageUtils;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
-public class GoogleCalculatorEmailTest {
+public class GoogleCalculatorEmailTest extends CommonTestData {
 
-    private WebDriver driver;
     private String totalEstimatedCostFromCalculator;
     private String totalEstimatedCostFromEmail;
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeClass(alwaysRun = true)
     public void executeScenario() {
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
+        startWebDriver();
 
-        GoogleCalculatorResults resultsTab = fillGoogleCalculatorFormScenario();
+        GoogleCalculatorResultsBar resultsTab = fillGoogleCalculatorForm();
         String calculatorWindowName = driver.getWindowHandle();
 
         totalEstimatedCostFromCalculator = resultsTab.getTotalEstimatedMonthlyCost().getText();
         ContactsForm contactsForm
                 = resultsTab.pressEmailEstimate();
 
-        YopMailGeneratorPage mailGeneratorPage
+        YopMailGeneratorPage emailGeneratorPage
                 = new YopMailGeneratorPage(driver)
                 .openPage();
         String emailGeneratorWindowName = driver.getWindowHandle();
-        String email = mailGeneratorPage.getEmail();
+        String emailAddress = emailGeneratorPage.getEmail();
 
-        navigateToPage(calculatorWindowName);
+        PageUtils.navigateToPage(driver, calculatorWindowName);
         GoogleCalculatorHomePage.switchToMainFrame(driver);
         contactsForm
-                .enterEmail(email)
+                .enterEmail(emailAddress)
                 .sendEmail();
 
-        navigateToPage(emailGeneratorWindowName);
-        totalEstimatedCostFromEmail = mailGeneratorPage
+        PageUtils.navigateToPage(driver, emailGeneratorWindowName);
+        totalEstimatedCostFromEmail = emailGeneratorPage
                 .goToEmailPage()
-                .estimatedMonthlyCostResult()
+                .getEstimatedMonthlyCostResult()
                 .getText();
-    }
-
-    private GoogleCalculatorResults fillGoogleCalculatorFormScenario() {
-        ComputeEngineTab computeEngineTab = new GoogleCloudHomePage(driver)
-                .openPage()
-                .searchForPricingCalculatorLink()
-                .goToPricingCalculatorHomePage()
-                .openComputeEngineTab();
-
-        computeEngineTab
-                .instancesForm()
-                .fillForm()
-                .addToEstimate();
-
-        GoogleCalculatorResults resultsPage = computeEngineTab
-                .soleTenantNodesForm()
-                .fillForm()
-                .addToEstimate();
-        return resultsPage;
-    }
-
-    private void navigateToPage(String address){
-        driver.switchTo().window(address);
     }
 
     @Test
@@ -76,11 +51,9 @@ public class GoogleCalculatorEmailTest {
         Assert.assertTrue(totalEstimatedCostFromCalculator.contains(totalEstimatedCostFromEmail));
     }
 
-
-    @AfterMethod(alwaysRun = true)
+    @AfterClass(alwaysRun = true)
     private void browserClose() {
-        driver.quit();
-        driver = null;
+        DriverSingleton.closeDriver();
     }
 
 }

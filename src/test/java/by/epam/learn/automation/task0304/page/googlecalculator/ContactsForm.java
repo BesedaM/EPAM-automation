@@ -1,25 +1,30 @@
 package by.epam.learn.automation.task0304.page.googlecalculator;
 
-import by.epam.learn.automation.task0304.page.Page;
+import by.epam.learn.automation.task0304.page.AbstractPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
-public class ContactsForm extends Page {
+public class ContactsForm extends AbstractPage {
 
     private static By EMAIL_ADDRESS_FIELD = By.xpath("//label[contains(text(),'Email')]/following-sibling::input");
-    private static By SEND_EMAIL_BUTTON = By.xpath("//button[@aria-label='Send Email']");
+
+    @FindBy(xpath="//button[@aria-label='Send Email']")
+    private WebElement sendEmailButton;
+
 
     public ContactsForm(WebDriver driver) {
         super(driver);
     }
 
     public ContactsForm enterEmail(String email) {
-        waitForElementBeClickable(driver, EMAIL_ADDRESS_FIELD).sendKeys(email);
+        waitForElementBeClickable(EMAIL_ADDRESS_FIELD).sendKeys(email);
         return this;
     }
 
     public ContactsForm sendEmail() {
-        waitForElementBeClickable(driver,SEND_EMAIL_BUTTON).click();
+        moveScreenToAndClickOnElement(sendEmailButton);
         return this;
     }
 }

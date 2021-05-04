@@ -1,13 +1,18 @@
 package by.epam.learn.automation.task0304.page.googlecalculator;
 
-import by.epam.learn.automation.task0304.page.Page;
+import by.epam.learn.automation.task0304.page.AbstractPage;
 import by.epam.learn.automation.task0304.page.googlecalculator.computeenginetab.ComputeEngineTab;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
-public class GoogleCalculatorHomePage extends Page {
+public class GoogleCalculatorHomePage extends AbstractPage {
 
-    private static final By COMPUTE_ENGINE_TAB = By.xpath("//md-tab-item/div[@title='Compute Engine']");
+    private static final int OUTER_FRAME_INDEX = 0;
+    private static final String MAINFRAME = "myFrame";
+
+    @FindBy(xpath = "//md-tab-item/div[@title='Compute Engine']")
+    private WebElement computeEngineTab;
 
     public GoogleCalculatorHomePage(WebDriver driver) {
         super(driver);
@@ -15,12 +20,12 @@ public class GoogleCalculatorHomePage extends Page {
     }
 
     public static void switchToMainFrame(WebDriver driver) {
-        driver.switchTo().frame(0);
-        driver.switchTo().frame("myFrame");
+        driver.switchTo().frame(OUTER_FRAME_INDEX);
+        driver.switchTo().frame(MAINFRAME);
     }
 
     public ComputeEngineTab openComputeEngineTab() {
-        selectWebElement(COMPUTE_ENGINE_TAB);
+        computeEngineTab.click();
         return new ComputeEngineTab(driver);
     }
 

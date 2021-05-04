@@ -1,17 +1,21 @@
 package by.epam.learn.automation.task0304.page.mail;
 
-import by.epam.learn.automation.task0304.page.Page;
-import org.openqa.selenium.By;
+import by.epam.learn.automation.task0304.page.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WindowType;
+import org.openqa.selenium.support.FindBy;
 
-public class YopMailGeneratorPage extends Page {
+public class YopMailGeneratorPage extends AbstractPage {
 
     private static final String YOP_MAIL_GENERATOR_PAGE = "http://www.yopmail.com/ru/email-generator.php";
-    private static final By YOP_EMAIL = By.xpath("//input[@id='login']");
-    private static final By CHECK_EMAIL = By.xpath("//input[@type='submit']");
     private static final String EMAIL_ATTRIBUTE_NAME = "value";
+
+    @FindBy(xpath = "//input[@id='login']")
+    private WebElement emailAddress;
+
+    @FindBy(xpath="//input[@type='submit']")
+    private WebElement goToEmailPageButton;
 
     public YopMailGeneratorPage(WebDriver driver) {
         super(driver);
@@ -24,12 +28,11 @@ public class YopMailGeneratorPage extends Page {
     }
 
     public String getEmail() {
-        WebElement searchInput = waitForElementLocatedBy(driver, YOP_EMAIL);
-        return searchInput.getAttribute(EMAIL_ATTRIBUTE_NAME);
+        return emailAddress.getAttribute(EMAIL_ATTRIBUTE_NAME);
     }
 
     public YopMailBoxHomePage goToEmailPage() {
-        waitForElementLocatedBy(driver, CHECK_EMAIL).click();
+        goToEmailPageButton.click();
         return new YopMailBoxHomePage(driver);
     }
 }
