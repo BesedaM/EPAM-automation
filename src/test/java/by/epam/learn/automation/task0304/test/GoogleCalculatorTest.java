@@ -1,6 +1,9 @@
 package by.epam.learn.automation.task0304.test;
 
 import by.epam.learn.automation.task0304.driver.DriverSingleton;
+import by.epam.learn.automation.task0304.model.ComputeNode;
+import by.epam.learn.automation.task0304.model.Instance;
+import by.epam.learn.automation.task0304.model.SoleTenantNode;
 import by.epam.learn.automation.task0304.page.googlecalculator.GoogleCalculatorResultsBar;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -11,12 +14,11 @@ public class GoogleCalculatorTest extends CommonTestData {
 
     private GoogleCalculatorResultsBar resultsPage;
 
-    private String EXPECTED_VM_CLASS = "regular";
-    private String EXPECTED_INSTANCE_TYPE_COMPUTE_ENGINE = "e2-standard-8";
-    private String EXPECTED_INSTANCE_TYPE_SOLE_TENANT = "n1-node-96-624";
-    private String EXPECTED_REGION = "Iowa";
-    private String EXPECTED_COMMITMENT_TERM = "1 Year";
-    private String EXPECTED_SSD_SPACE = "24x375";
+    private Instance.MachineClass EXPECTED_VM_CLASS = Instance.MachineClass.REGULAR;
+    private Instance.MachineType EXPECTED_INSTANCE_TYPE_COMPUTE_ENGINE = Instance.MachineType.E2_STANDARD_8;
+    private ComputeNode.DatacenterLocation EXPECTED_REGION = ComputeNode.DatacenterLocation.IOWA;
+    private ComputeNode.CommittedUsagePeriod EXPECTED_COMMITMENT_TERM = ComputeNode.CommittedUsagePeriod.ONE_YEAR;
+    private SoleTenantNode.LocalSsdNumber SSD_NUMBER = SoleTenantNode.LocalSsdNumber.MAX_NUMBER;
 
     @BeforeClass(alwaysRun = true)
     public void executeScenario() {
@@ -25,50 +27,45 @@ public class GoogleCalculatorTest extends CommonTestData {
     }
 
     @Test
-    public void computeEngineVmClassTest() {
-        Assert.assertTrue(resultsPage.getComputeEngineVmClass().getText().contains(EXPECTED_VM_CLASS));
+    public void instanceVmClassTest() {
+        Assert.assertTrue(resultsPage.getComputeEngineVmClass().getText()
+                .contains(EXPECTED_VM_CLASS.getValue()));
     }
 
     @Test
-    public void computeEngineInstanceTypeTest() {
+    public void instanceTypeTest() {
         Assert.assertTrue(resultsPage.getComputeEngineInstanceType().getText()
-                .contains(EXPECTED_INSTANCE_TYPE_COMPUTE_ENGINE));
+                .contains(EXPECTED_INSTANCE_TYPE_COMPUTE_ENGINE.getValue().toLowerCase()));
     }
 
     @Test
-    public void computeEngineRegionTest() {
-        Assert.assertTrue(resultsPage.getComputeEngineRegion().getText()
-                .contains(EXPECTED_REGION));
+    public void instanceRegionTest() {
+        Assert.assertTrue(resultsPage.getComputeEngineRegion().getText().toLowerCase()
+                .contains(EXPECTED_REGION.name().toLowerCase()));
     }
 
     @Test
-    public void computeEngineCommitmentTermTest() {
+    public void instanceCommitmentTermTest() {
         Assert.assertTrue(resultsPage.getComputeEngineCommitmentTerm().getText()
-                .contains(EXPECTED_COMMITMENT_TERM));
-    }
-
-    @Test
-    public void soleTenantInstanceTypeTest() {
-        Assert.assertTrue(resultsPage.getSoleTenantInstanceType().getText()
-                .contains(EXPECTED_INSTANCE_TYPE_SOLE_TENANT));
+                .contains(EXPECTED_COMMITMENT_TERM.getPeriod() + ""));
     }
 
     @Test
     public void soleTenantRegionTest() {
-        Assert.assertTrue(resultsPage.getSoleTenantRegion().getText()
-                .contains(EXPECTED_REGION));
+        Assert.assertTrue(resultsPage.getSoleTenantRegion().getText().toLowerCase()
+                .contains(EXPECTED_REGION.name().toLowerCase()));
     }
 
     @Test
     public void soleTenantCommitmentTermTest() {
         Assert.assertTrue(resultsPage.getSoleTenantCommitmentTerm().getText()
-                .contains(EXPECTED_COMMITMENT_TERM));
+                .contains(EXPECTED_COMMITMENT_TERM.getPeriod() + ""));
     }
 
     @Test
     public void soleTenantLocalSsdTest() {
         Assert.assertTrue(resultsPage.getSoleTenantLocalSsdSpace().getText()
-                .contains(EXPECTED_SSD_SPACE));
+                .contains(SSD_NUMBER.getNumber() + ""));
     }
 
     @AfterClass(alwaysRun = true)

@@ -27,9 +27,9 @@ public abstract class AbstractPage {
                 .until(ExpectedConditions.elementToBeClickable(by));
     }
 
-    protected void clickOnElement(By locator) {
-        WebElement element = this.waitForElementBeClickable(locator);
-        element.click();
+    protected WebElement waitForElementBeClickable(String xpathLocator) {
+        return new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
+                .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathLocator)));
     }
 
     protected void moveScreenToAndClickOnElement(WebElement element){

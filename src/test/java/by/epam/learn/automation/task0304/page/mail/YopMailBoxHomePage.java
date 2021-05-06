@@ -47,7 +47,7 @@ public class YopMailBoxHomePage extends AbstractPage {
 
     private YopMailBoxHomePage reloadPage() {
         driver.switchTo().parentFrame();
-        clickOnElement(RELOAD_PAGE_BUTTON);
+        waitForElementBeClickable(RELOAD_PAGE_BUTTON).click();
         return this;
     }
 }

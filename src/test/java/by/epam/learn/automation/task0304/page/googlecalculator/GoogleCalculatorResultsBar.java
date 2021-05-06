@@ -60,11 +60,6 @@ public class GoogleCalculatorResultsBar extends AbstractPage {
         return computeEngineCommitmentTerm;
     }
 
-
-    public WebElement getSoleTenantInstanceType(){
-        return soleTenantInstanceType;
-    }
-
     public WebElement getSoleTenantRegion(){
         return soleTenantRegion;
     }
@@ -83,7 +78,7 @@ public class GoogleCalculatorResultsBar extends AbstractPage {
     }
 
     public ContactsForm pressEmailEstimate() {
-        clickOnElement(EMAIL_ESTIMATE_BUTTON);
+        waitForElementBeClickable(EMAIL_ESTIMATE_BUTTON).click();
         return new ContactsForm(driver);
     }
 
