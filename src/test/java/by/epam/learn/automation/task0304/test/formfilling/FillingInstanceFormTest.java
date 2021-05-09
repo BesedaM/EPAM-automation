@@ -42,8 +42,6 @@ public class FillingInstanceFormTest extends CommonTestData {
 
     @Test
     public void instanceRegionTest() {
-        System.out.println(resultsPage.getComputeEngineRegion().getText().toLowerCase());
-        System.out.println(instance.getLocation().name().toLowerCase());
         Assert.assertTrue(resultsPage.getComputeEngineRegion().getText().toLowerCase()
                 .contains(instance.getLocation().name().toLowerCase()));
     }

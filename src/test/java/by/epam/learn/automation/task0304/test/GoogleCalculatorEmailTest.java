@@ -19,7 +19,6 @@ public class GoogleCalculatorEmailTest extends CommonTestData {
 
     @BeforeClass(alwaysRun = true)
     public void executeScenario() {
-
         ComputeEngineTab computeEngineTab = openComputeEngineTab(driver);
         GoogleCalculatorResultsBar resultsBar = fillInstanceFormAndAddToEstimate(computeEngineTab);
         fillSoleTeenantNodeFormAndAddToEstimate(computeEngineTab);
@@ -27,21 +26,25 @@ public class GoogleCalculatorEmailTest extends CommonTestData {
         String calculatorWindowName = driver.getWindowHandle();
 
         totalEstimatedCostFromCalculator = resultsBar.getTotalEstimatedMonthlyCost().getText();
+        logger.info("trying to send results data to email");
         ContactsForm contactsForm
                 = resultsBar.pressEmailEstimate();
 
+        logger.info("opening yopmail generator page to get the email address");
         YopMailGeneratorPage emailGeneratorPage
                 = new YopMailGeneratorPage(driver)
                 .openPage();
         String emailGeneratorWindowName = driver.getWindowHandle();
         String emailAddress = emailGeneratorPage.getEmail();
 
+        logger.info("filling in the form the email address and sending data to the mail box");
         PageUtils.navigateToPage(driver, calculatorWindowName);
         GoogleCalculatorHomePage.switchToMainFrame(driver);
         contactsForm
                 .enterEmail(emailAddress)
                 .sendEmail();
 
+        logger.info("go to mail box and waiting for the letter to come");
         PageUtils.navigateToPage(driver, emailGeneratorWindowName);
         totalEstimatedCostFromEmail = emailGeneratorPage
                 .goToEmailPage()

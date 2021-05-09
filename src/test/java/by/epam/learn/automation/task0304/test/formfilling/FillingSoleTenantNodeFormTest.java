@@ -32,7 +32,7 @@ public class FillingSoleTenantNodeFormTest extends CommonTestData {
                 .contains(node.getPeriod()));
     }
 
-    @Test(timeOut = 5)
+    @Test
     public void soleTenantLocalSsdTest() {
         Assert.assertTrue(resultsPage.getSoleTenantLocalSsdSpace().getText()
                 .contains(node.getLocalSsdNumber()));
