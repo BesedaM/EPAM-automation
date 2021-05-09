@@ -1,9 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="AllTests" verbose="1" >
-    <test name="GoogleCalculatorTests"   >
+<suite name="Email" verbose="1" >
+    <test name="GoogleCalculatorEmailTests"   >
         <classes>
-            <class name="by.epam.learn.automation.task0304.test.GoogleCalculatorTest" />
             <class name="by.epam.learn.automation.task0304.test.GoogleCalculatorEmailTest"/>
         </classes>
     </test>

@@ -13,13 +13,13 @@ import java.time.Duration;
 
 public abstract class AbstractPage {
 
-    private static final int WAIT_TIMEOUT_SECONDS=5;
+    private static final int WAIT_TIMEOUT_SECONDS = 3;
 
     protected WebDriver driver;
 
     public AbstractPage(WebDriver driver) {
         this.driver = driver;
-        PageFactory.initElements(new AjaxElementLocatorFactory(driver,WAIT_TIMEOUT_SECONDS), this);
+        PageFactory.initElements(new AjaxElementLocatorFactory(driver, WAIT_TIMEOUT_SECONDS), this);
     }
 
     protected WebElement waitForElementBeClickable(By by) {
@@ -32,12 +32,16 @@ public abstract class AbstractPage {
                 .until(ExpectedConditions.elementToBeClickable(By.xpath(xpathLocator)));
     }
 
-    protected void moveScreenToAndClickOnElement(WebElement element){
-        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(); arguments[0].click();", element);
+    protected void moveScreenToAndClickOnElementJS(WebElement element) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(); arguments[0].click();", element);
     }
 
-    protected void moveScreenToElement(WebElement element){
-        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", element);
+    protected void moveScreenToElementJS(WebElement element) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", element);
+    }
+
+    protected void clickOnElementJS(WebElement element){
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
     }
 
 }

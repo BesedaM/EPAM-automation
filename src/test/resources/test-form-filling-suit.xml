@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="FormFilling" verbose="1" >
+    <test name="GoogleCalculatorFormFillingSuit"   >
+        <classes>
+            <class name="by.epam.learn.automation.task0304.test.formfilling.FillingInstanceFormTest"/>
+            <class name="by.epam.learn.automation.task0304.test.formfilling.FillingSoleTenantNodeFormTest"/>
+        </classes>
+    </test>
+</suite>

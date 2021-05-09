@@ -2,12 +2,12 @@ package by.epam.learn.automation.task0304.model;
 
 import java.util.Objects;
 
-public class SoleTenantNode extends ComputeNode {
+public class SoleTenantNode extends ComputeEngine {
 
     public enum GPUType {
         NVIDIA_TESLA_P100(4),
         NVIDIA_TESLA_P4(4),
-        NVIDIA_TESLA_V100( 8),
+        NVIDIA_TESLA_V100(8),
         NVIDIA_TESLA_T4(4);
 
         int maxNumberOfGPUForNode;
@@ -22,15 +22,15 @@ public class SoleTenantNode extends ComputeNode {
     }
 
     public enum LocalSsdNumber {
-        ZERO(0), MAX_NUMBER(24);
+        ZERO("0"), MAX_NUMBER("24");
 
-        int size;
+        String size;
 
-        LocalSsdNumber(int size) {
+        LocalSsdNumber(String size) {
             this.size = size;
         }
 
-        public int getNumber() {
+        public String getNumber() {
             return size;
         }
     }
@@ -54,11 +54,11 @@ public class SoleTenantNode extends ComputeNode {
         return gpuType.name();
     }
 
-    public int getMaxNumberOfGPUForNode(){
+    public int getMaxNumberOfGPUForNode() {
         return gpuType.getMaxNumberOfGPUForNode();
     }
 
-    public int getLocalSsdNumber() {
+    public String getLocalSsdNumber() {
         return localSsdNumber.getNumber();
     }
 

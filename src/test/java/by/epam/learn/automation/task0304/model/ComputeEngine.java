@@ -2,19 +2,31 @@ package by.epam.learn.automation.task0304.model;
 
 import java.util.Objects;
 
-public abstract class ComputeNode {
+public abstract class ComputeEngine {
 
     public enum CommittedUsagePeriod {
-        NONE(0), ONE_YEAR(1), THREE_YEARS(3);
+        NONE("0"), ONE_YEAR("1"), THREE_YEARS("3");
 
-        int value;
+        String value;
 
-        CommittedUsagePeriod(int value) {
+        CommittedUsagePeriod(String value) {
             this.value = value;
         }
 
-        public int getPeriod() {
+        public String getPeriod() {
             return this.value;
+        }
+
+        public static CommittedUsagePeriod getByValue(int value) {
+            CommittedUsagePeriod period = null;
+            for (CommittedUsagePeriod committedPeriod :
+                    values()) {
+                if (committedPeriod.getPeriod().equals(value)) {
+                    period = committedPeriod;
+                    break;
+                }
+            }
+            return period;
         }
     }
 
@@ -38,13 +50,17 @@ public abstract class ComputeNode {
         public String getValue() {
             return value;
         }
+
+        public String nameToLowerCase(){
+            return name().replace("_"," ").toLowerCase();
+        }
     }
 
 
     private CommittedUsagePeriod period;
     private DatacenterLocation location;
 
-    public ComputeNode() {
+    public ComputeEngine() {
     }
 
     public void setPeriod(CommittedUsagePeriod period) {
@@ -55,19 +71,19 @@ public abstract class ComputeNode {
         this.location = location;
     }
 
-    public int getPeriod() {
+    public String getPeriod() {
         return period.getPeriod();
     }
 
-    public String getLocation() {
-        return location.getValue();
+    public DatacenterLocation getLocation() {
+        return location;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ComputeNode)) return false;
-        ComputeNode that = (ComputeNode) o;
+        if (!(o instanceof ComputeEngine)) return false;
+        ComputeEngine that = (ComputeEngine) o;
         return period == that.period &&
                 location == that.location;
     }

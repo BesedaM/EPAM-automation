@@ -1,6 +1,5 @@
 package by.epam.learn.automation.task0304.page.googlecalculator.computeenginetab;
 
-import by.epam.learn.automation.task0304.model.ComputeNode;
 import by.epam.learn.automation.task0304.model.SoleTenantNode;
 import by.epam.learn.automation.task0304.page.AbstractPage;
 import by.epam.learn.automation.task0304.page.googlecalculator.GoogleCalculatorResultsBar;
@@ -36,20 +35,14 @@ public class SoleTenantNodesForm extends AbstractPage {
     private WebElement addToEstimateButton;
 
     private static final String GPU_TYPE = "//md-option[@value='**']";
-    private static final String GPU_NUMBER = "//label[text()='Number of GPUs']/following::md-option[@value='**']";
+    private static final String GPU_NUMBER = "//label[text()='Number of GPUs']/following::md-option[@value='**'][@aria-disabled='false']";
     private static final String LOCAL_SSD_NUMBER = "//div[@aria-hidden='false']//md-option[@value='**']";
     private static final String DATACENTER_LOCATION = "//div[@aria-hidden='false']//md-option[@value='**']";
     private static final String COMMITTED_USAGE_PERIOD = "//div[@aria-hidden='false']//md-option[@value='**']";
 
-    private SoleTenantNode instance;
 
     public SoleTenantNodesForm(WebDriver driver) {
         super(driver);
-        instance = new SoleTenantNode();
-        instance.setGpuType(SoleTenantNode.GPUType.NVIDIA_TESLA_V100);
-        instance.setLocalSsdNumber(SoleTenantNode.LocalSsdNumber.MAX_NUMBER);
-        instance.setLocation(ComputeNode.DatacenterLocation.IOWA);
-        instance.setPeriod(ComputeNode.CommittedUsagePeriod.ONE_YEAR);
     }
 
     /**
@@ -57,31 +50,31 @@ public class SoleTenantNodesForm extends AbstractPage {
      *
      * @return GoogleCalculatorPageFormFiller page
      */
-    public SoleTenantNodesForm fillForm() {
-        moveScreenToElement(soleTenantNodesNumberInput);
-        soleTenantNodesNumberInput.sendKeys(2 + "");
+    public SoleTenantNodesForm fillForm(Integer number, SoleTenantNode node) {
+        moveScreenToElementJS(soleTenantNodesNumberInput);
+        soleTenantNodesNumberInput.sendKeys(number + "");
 
-        this.addDataOnGPU();
+        this.addDataOnGPU(node);
 
         localSsdSelect.click();
-        waitForElementBeClickable(StringUtils.useValueInString(LOCAL_SSD_NUMBER, instance.getLocalSsdNumber() + "")).click();
+        waitForElementBeClickable(StringUtils.useValueInString(LOCAL_SSD_NUMBER, node.getLocalSsdNumber())).click();
 
         datacenterLocation.click();
-        waitForElementBeClickable(StringUtils.useValueInString(DATACENTER_LOCATION, instance.getLocation())).click();
+        waitForElementBeClickable(StringUtils.useValueInString(DATACENTER_LOCATION, node.getLocation().getValue())).click();
 
         committedUsageSelect.click();
-        waitForElementBeClickable(StringUtils.useValueInString(COMMITTED_USAGE_PERIOD, instance.getPeriod() + "")).click();
+        waitForElementBeClickable(StringUtils.useValueInString(COMMITTED_USAGE_PERIOD, node.getPeriod() + "")).click();
         return this;
     }
 
 
-    private void addDataOnGPU() {
-        moveScreenToAndClickOnElement(addGpuMark);
+    private void addDataOnGPU(SoleTenantNode node) {
+        moveScreenToAndClickOnElementJS(addGpuMark);
         gpuTypeSelect.click();
-        waitForElementBeClickable(StringUtils.useValueInString(GPU_TYPE,instance.getGpuTypeLastName())).click();
+        waitForElementBeClickable(StringUtils.useValueInString(GPU_TYPE,node.getGpuTypeLastName())).click();
 
         gpuNumberSelect.click();
-        waitForElementBeClickable(StringUtils.useValueInString(GPU_NUMBER, instance.getMaxNumberOfGPUForNode()+"")).click();
+        waitForElementBeClickable(StringUtils.useValueInString(GPU_NUMBER, node.getMaxNumberOfGPUForNode()+"")).click();
     }
 
 

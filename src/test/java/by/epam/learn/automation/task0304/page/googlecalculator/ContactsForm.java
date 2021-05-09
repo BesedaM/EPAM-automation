@@ -24,7 +24,7 @@ public class ContactsForm extends AbstractPage {
     }
 
     public ContactsForm sendEmail() {
-        moveScreenToAndClickOnElement(sendEmailButton);
+        moveScreenToAndClickOnElementJS(sendEmailButton);
         return this;
     }
 }

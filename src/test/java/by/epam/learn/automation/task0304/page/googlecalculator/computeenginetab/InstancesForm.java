@@ -1,6 +1,5 @@
 package by.epam.learn.automation.task0304.page.googlecalculator.computeenginetab;
 
-import by.epam.learn.automation.task0304.model.ComputeNode;
 import by.epam.learn.automation.task0304.model.Instance;
 import by.epam.learn.automation.task0304.page.AbstractPage;
 import by.epam.learn.automation.task0304.page.googlecalculator.GoogleCalculatorResultsBar;
@@ -33,48 +32,39 @@ public class InstancesForm extends AbstractPage {
     @FindBy(xpath = "//button[@aria-label='Add to Estimate'][not(@disabled)]")
     private WebElement addToEstimateButton;
 
-    private static final String NUMBER_OF_INSTANCES = 4 + "";
     private static final String OPERATING_SYSTEM = "//md-option[@value='**']";
     private static final String VIRTUAL_MACHINE_CLASS = "//div[@aria-hidden='false']//md-option[@value='**']";
     private static final String MACHINE_TYPE = "//md-option[contains(@value,'**')]";
     private static final String DATACENTER_LOCATION = "//div[@aria-hidden='false']//md-option[@value='**']";
     private static final String COMMITTED_USAGE_PERIOD = "//div[@aria-hidden='false']//md-option[@value='**']";
 
-    private Instance instance;
-
     public InstancesForm(WebDriver driver) {
         super(driver);
-        instance = new Instance();
-        instance.setMachineClass(Instance.MachineClass.REGULAR);
-        instance.setMachineType(Instance.MachineType.E2_STANDARD_8);
-        instance.setOperatingSystem(Instance.OperatingSystem.FREE);
-        instance.setLocation(ComputeNode.DatacenterLocation.IOWA);
-        instance.setPeriod(ComputeNode.CommittedUsagePeriod.ONE_YEAR);
     }
-
 
     /**
      * The scenario of filling the Instances form of Google Pricing Calculator
      *
      * @return GoogleCalculatorPageFormFiller page
      */
-    public InstancesForm fillForm() {
-        numberOfInstances.sendKeys(NUMBER_OF_INSTANCES);
+    public InstancesForm fillForm(Integer number, Instance instance) {
+        numberOfInstances.sendKeys(number + "");
 
         operationSystemSelect.click();
-        waitForElementBeClickable(StringUtils.useValueInString(OPERATING_SYSTEM,instance.getOperatingSystem())).click();
+        waitForElementBeClickable(StringUtils.useValueInString(OPERATING_SYSTEM, instance.getOperatingSystem())).click();
 
         virtualMachineClassSelect.click();
-        waitForElementBeClickable(StringUtils.useValueInString(VIRTUAL_MACHINE_CLASS,instance.getMachineClass())).click();
+        waitForElementBeClickable(StringUtils.useValueInString(VIRTUAL_MACHINE_CLASS, instance.getMachineClass())).click();
 
         instanceTypeSelect.click();
-        waitForElementBeClickable(StringUtils.useValueInString(MACHINE_TYPE,instance.getMachineType())).click();
+        waitForElementBeClickable(StringUtils.useValueInString(MACHINE_TYPE, instance.getMachineType())).click();
 
         datacenterLocationSelect.click();
-        waitForElementBeClickable(StringUtils.useValueInString(DATACENTER_LOCATION,instance.getLocation())).click();
+        WebElement locationFrankfurt = waitForElementBeClickable(StringUtils.useValueInString(DATACENTER_LOCATION, instance.getLocation().getValue()));
+        clickOnElementJS(locationFrankfurt);
 
-        moveScreenToAndClickOnElement(committedUsageSelect);
-        waitForElementBeClickable(StringUtils.useValueInString(COMMITTED_USAGE_PERIOD,instance.getPeriod()+"")).click();
+        moveScreenToAndClickOnElementJS(committedUsageSelect);
+        waitForElementBeClickable(StringUtils.useValueInString(COMMITTED_USAGE_PERIOD, instance.getPeriod())).click();
         return this;
     }
 

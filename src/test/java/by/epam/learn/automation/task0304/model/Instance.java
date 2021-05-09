@@ -2,7 +2,7 @@ package by.epam.learn.automation.task0304.model;
 
 import java.util.Objects;
 
-public class Instance extends ComputeNode {
+public class Instance extends ComputeEngine {
 
     public enum OperatingSystem {
         FREE("free"), PAID_WINDOWS_SERVER("win"),
@@ -24,7 +24,17 @@ public class Instance extends ComputeNode {
             return value;
         }
 
-
+        public static OperatingSystem getByValue(String value) {
+            OperatingSystem os = null;
+            for (OperatingSystem element :
+                    values()) {
+                if (element.value.equals(value.toLowerCase())) {
+                    os = element;
+                    break;
+                }
+            }
+            return os;
+        }
     }
 
     public enum MachineClass {
@@ -41,8 +51,8 @@ public class Instance extends ComputeNode {
         E2_HIGHMEM_2, E2_HIGHMEM_4, E2_HIGHMEM_8, E2_HIGHMEM_16,
         E2_HIGHCPU_2, E2_HIGHCPU_4, E2_HIGHCPU_8, E2_HIGHCPU_16, E2_HIGHCPU_32;
 
-        public String getValue(){
-            return this.name().replace('_','-');
+        public String getValue() {
+            return this.name().replace('_', '-');
         }
 
     }

@@ -4,6 +4,7 @@ import by.epam.learn.automation.task0304.driver.DriverSingleton;
 import by.epam.learn.automation.task0304.page.googlecalculator.ContactsForm;
 import by.epam.learn.automation.task0304.page.googlecalculator.GoogleCalculatorHomePage;
 import by.epam.learn.automation.task0304.page.googlecalculator.GoogleCalculatorResultsBar;
+import by.epam.learn.automation.task0304.page.googlecalculator.computeenginetab.ComputeEngineTab;
 import by.epam.learn.automation.task0304.page.mail.YopMailGeneratorPage;
 import by.epam.learn.automation.task0304.util.PageUtils;
 import org.testng.Assert;
@@ -18,14 +19,16 @@ public class GoogleCalculatorEmailTest extends CommonTestData {
 
     @BeforeClass(alwaysRun = true)
     public void executeScenario() {
-        startWebDriver();
 
-        GoogleCalculatorResultsBar resultsTab = fillGoogleCalculatorForm();
+        ComputeEngineTab computeEngineTab = openComputeEngineTab(driver);
+        GoogleCalculatorResultsBar resultsBar = fillInstanceFormAndAddToEstimate(computeEngineTab);
+        fillSoleTeenantNodeFormAndAddToEstimate(computeEngineTab);
+
         String calculatorWindowName = driver.getWindowHandle();
 
-        totalEstimatedCostFromCalculator = resultsTab.getTotalEstimatedMonthlyCost().getText();
+        totalEstimatedCostFromCalculator = resultsBar.getTotalEstimatedMonthlyCost().getText();
         ContactsForm contactsForm
-                = resultsTab.pressEmailEstimate();
+                = resultsBar.pressEmailEstimate();
 
         YopMailGeneratorPage emailGeneratorPage
                 = new YopMailGeneratorPage(driver)
